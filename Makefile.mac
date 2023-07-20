@@ -1,0 +1,32 @@
+BINARY_NAME=sampleApp
+
+build:
+	@go mod vendor
+	@echo "Building App..."
+	@go build -o tmp/${BINARY_NAME} .
+	@echo "App built!"
+
+run: build
+	@echo "Starting App..."
+	@./tmp/${BINARY_NAME} &
+	@echo "App started!"
+
+clean:
+	@echo "Cleaning..."
+	@go clean
+	@rm tmp/${BINARY_NAME}
+	@echo "Cleaned!"
+
+test:
+	@echo "Testing..."
+	@go test ./...
+	@echo "Done!"
+
+start: run
+
+stop:
+	@echo "Stopping app..."
+	@-pkill -SIGTERM -f "./tmp/${BINARY_NAME}"
+	@echo "Stopped app!"
+
+restart: stop start
